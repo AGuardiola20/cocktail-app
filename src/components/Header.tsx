@@ -1,19 +1,44 @@
-import { useEffect, useMemo } from "react";
+import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
 import Logo from "../assets/imgs/logo.svg";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAppStore } from "../stores/useAppStore";
 
 const Header = () => {
+  const [searchFilter, setSearchFilter] = useState({
+    ingredient: "",
+    category: "",
+  });
   const { pathname } = useLocation();
 
   const isHome = useMemo(() => pathname === "/", [pathname]);
 
   const fetchCategories = useAppStore((state) => state.fetchCategories);
   const categories = useAppStore((state) => state.categories);
+  const searchRecipes = useAppStore((state) => state.searchRecipes);
 
   useEffect(() => {
     fetchCategories();
   });
+
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+  ) => {
+    setSearchFilter({
+      ...searchFilter,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // TODO: Validation
+    if (Object.values(searchFilter).includes("")) {
+      return;
+    }
+
+    searchRecipes(searchFilter);
+  };
 
   return (
     <header
@@ -48,7 +73,10 @@ const Header = () => {
           </nav>
         </div>
         {isHome && (
-          <form className="md:w-1/2 2xl:w-1/3 bg-orange-400 my-32 p-10 rounded-lg shadow space-y-6">
+          <form
+            className="md:w-1/2 2xl:w-1/3 bg-orange-400 my-32 p-10 rounded-lg shadow space-y-6"
+            onSubmit={handleSubmit}
+          >
             <div className="space-y-4">
               <label
                 htmlFor="ingredient"
@@ -62,6 +90,8 @@ const Header = () => {
                 id="ingredient"
                 className="p-3 w-full focus:outline-none rounded-lg"
                 placeholder="Name or ingredients. Ej. Vodka, Tequila Coffee"
+                onChange={handleChange}
+                value={searchFilter.ingredient}
               />
             </div>
 
@@ -76,6 +106,8 @@ const Header = () => {
                 name="category"
                 id="category"
                 className="p-3 w-full focus:outline-none rounded-lg"
+                onChange={handleChange}
+                value={searchFilter.category}
               >
                 <option value="" className="text-center">
                   ---Select an option---
