@@ -1,11 +1,18 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import Logo from "../assets/imgs/logo.svg";
 import { NavLink, useLocation } from "react-router-dom";
+import { useAppStore } from "../stores/useAppStore";
 
 const Header = () => {
   const { pathname } = useLocation();
 
   const isHome = useMemo(() => pathname === "/", [pathname]);
+
+  const fetchCategories = useAppStore((state) => state.fetchCategories);
+
+  useEffect(() => {
+    fetchCategories();
+  });
 
   return (
     <header
