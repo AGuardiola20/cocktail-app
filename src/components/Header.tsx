@@ -9,6 +9,7 @@ const Header = () => {
   const isHome = useMemo(() => pathname === "/", [pathname]);
 
   const fetchCategories = useAppStore((state) => state.fetchCategories);
+  const categories = useAppStore((state) => state.categories);
 
   useEffect(() => {
     fetchCategories();
@@ -79,6 +80,13 @@ const Header = () => {
                 <option value="" className="text-center">
                   ---Select an option---
                 </option>
+                {categories.drinks.map((drink, index) => {
+                  return (
+                    <option key={index} value={drink.strCategory}>
+                      {drink.strCategory}
+                    </option>
+                  );
+                })}
               </select>
             </div>
             <input
