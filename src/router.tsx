@@ -1,11 +1,14 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomeScreen from "./screens/HomeScreen";
+import Layout from "./layout/Layout";
 
 const AppRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomeScreen />} />
+        <Route element={<Layout />}>
+          <Route path="/" element={<HomeScreen />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
