@@ -8,7 +8,9 @@ const Header = () => {
   const isHome = useMemo(() => pathname === "/", [pathname]);
 
   return (
-    <header className="bg-slate-800">
+    <header
+      className={isHome ? "bg-header bg-center bg-cover" : "bg-slate-800"}
+    >
       <div className="mx-auto container px-5 py-16">
         <div className="flex justify-between items-center">
           <div>
@@ -67,7 +69,9 @@ const Header = () => {
                 id="category"
                 className="p-3 w-full focus:outline-none rounded-lg"
               >
-                <option value="">---Select an option---</option>
+                <option value="" className="text-center">
+                  ---Select an option---
+                </option>
               </select>
             </div>
             <input
