@@ -15,6 +15,7 @@ const Header = () => {
   const fetchCategories = useAppStore((state) => state.fetchCategories);
   const categories = useAppStore((state) => state.categories);
   const searchRecipes = useAppStore((state) => state.searchRecipes);
+  const showNotification = useAppStore((state) => state.showNotification);
 
   useEffect(() => {
     fetchCategories();
@@ -32,8 +33,11 @@ const Header = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // TODO: Validation
     if (Object.values(searchFilter).includes("")) {
+      showNotification({
+        text: "All form fields are required!",
+        error: true,
+      });
       return;
     }
 
