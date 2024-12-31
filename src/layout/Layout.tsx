@@ -6,6 +6,7 @@ import { useAppStore } from "../stores/useAppStore";
 
 const Layout = () => {
   const loadFromStorage = useAppStore((state) => state.loadFromStorage);
+
   useEffect(() => {
     loadFromStorage();
   });
