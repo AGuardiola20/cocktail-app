@@ -19,7 +19,7 @@ const Header = () => {
 
   useEffect(() => {
     fetchCategories();
-  });
+  }, [fetchCategories]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
@@ -45,94 +45,89 @@ const Header = () => {
   };
 
   return (
-    <header
-      className={isHome ? "bg-header bg-center bg-cover" : "bg-slate-800"}
-    >
-      <div className="mx-auto container px-5 py-16">
-        <div className="flex justify-between items-center">
-          <div>
-            <img className="w-32" src={Logo} alt="Logo" />
-          </div>
-          <nav className="flex gap-4">
-            <NavLink
-              to={"/"}
-              className={({ isActive }) =>
-                isActive
-                  ? "text-orange-500 uppercase font-bold"
-                  : "text-white uppercase font-bold"
-              }
-            >
-              Home
-            </NavLink>
-            <NavLink
-              to={"/favoritos"}
-              className={({ isActive }) =>
-                isActive
-                  ? "text-orange-500 uppercase font-bold"
-                  : "text-white uppercase font-bold"
-              }
-            >
-              Favorites
-            </NavLink>
-          </nav>
-        </div>
-        {isHome && (
+    <header className="bg-gradient-to-r  from-orange-500 to-red-500 shadow-lg p-5">
+      <div className="container mx-auto flex justify-between items-center">
+        <img src={Logo} alt="Logo" className="w-36" />
+        <nav className="flex gap-8 text-lg font-semibold text-white">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive
+                ? "text-yellow-400 underline decoration-4"
+                : "hover:text-yellow-300"
+            }
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to="/favoritos"
+            className={({ isActive }) =>
+              isActive
+                ? "text-yellow-400 underline decoration-4"
+                : "hover:text-yellow-300"
+            }
+          >
+            Favorites
+          </NavLink>
+        </nav>
+      </div>
+      {isHome && (
+        <div className="flex justify-center items-center py-20 bg-gradient-to-r from-orange-500 to-red-500">
           <form
-            className="md:w-1/2 2xl:w-1/3 bg-orange-400 my-32 p-10 rounded-lg shadow space-y-6"
+            className="bg-white rounded-lg shadow-2xl p-8 w-full max-w-3xl space-y-6"
             onSubmit={handleSubmit}
           >
+            <h2 className="text-3xl font-extrabold text-gray-800 text-center">
+              Find Your Perfect Recipe
+            </h2>
             <div className="space-y-4">
               <label
                 htmlFor="ingredient"
-                className="block text-white uppercase font-extrabold text-lg"
+                className="block text-lg font-semibold text-gray-600"
               >
-                Name or ingredients
+                Name or Ingredients
               </label>
               <input
                 type="text"
                 name="ingredient"
                 id="ingredient"
-                className="p-3 w-full focus:outline-none rounded-lg"
-                placeholder="Name or ingredients. Ej. Vodka, Tequila Coffee"
+                className="w-full p-4 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                placeholder="E.g., Vodka, Tequila, Coffee"
                 onChange={handleChange}
                 value={searchFilter.ingredient}
               />
             </div>
-
             <div className="space-y-4">
               <label
                 htmlFor="category"
-                className="block text-white uppercase font-extrabold text-lg"
+                className="block text-lg font-semibold text-gray-600"
               >
                 Category
               </label>
               <select
                 name="category"
                 id="category"
-                className="p-3 w-full focus:outline-none rounded-lg"
+                className="w-full p-4 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400"
                 onChange={handleChange}
                 value={searchFilter.category}
               >
-                <option value="" className="text-center">
-                  ---Select an option---
-                </option>
-                {categories.drinks.map((drink, index) => {
-                  return (
-                    <option key={index} value={drink.strCategory}>
-                      {drink.strCategory}
-                    </option>
-                  );
-                })}
+                <option value="">--- Select an option ---</option>
+                {categories.drinks.map((drink, index) => (
+                  <option key={index} value={drink.strCategory}>
+                    {drink.strCategory}
+                  </option>
+                ))}
               </select>
             </div>
-            <input
+            <button
               type="submit"
-              value="Search"
-              className="cursor-pointer bg-orange-800 hover:bg-orange-900 text-white font-extrabold w-full rounded-lg uppercase p-2"
-            />
+              className="w-full py-3 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600 transition-all ease-in-out"
+            >
+              Search
+            </button>
           </form>
-        )}
-      </div>
+        </div>
+      )}
     </header>
   );
 };
